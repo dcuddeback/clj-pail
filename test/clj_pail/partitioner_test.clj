@@ -48,3 +48,29 @@
     nil
     []
     ["foo" "bar"]))
+
+
+(facts "NullPartitioner"
+  (fact "make-partition returns an empty sequence"
+    (partitioner/make-partition (partitioner/null-partitioner) anything) => empty?
+    (partitioner/make-partition (partitioner/null-partitioner) anything) => sequential?)
+
+  (fact "vertical-partition returns an empty sequence"
+    (partitioner/vertical-partition (partitioner/null-partitioner) anything) => empty?
+    (partitioner/vertical-partition (partitioner/null-partitioner) anything) => sequential?)
+
+  (tabular
+    (facts
+      (fact "validate returns true"
+        (partitioner/validate (partitioner/null-partitioner) ?dirs) => (just true anything))
+
+      (fact "validate returns the directories"
+        (partitioner/validate (partitioner/null-partitioner) ?dirs) => (just anything ?dirs))
+
+      (fact "valid-partition? always returns true"
+        (partitioner/valid-partition? (partitioner/null-partitioner) ?dirs) => true))
+
+    ?dirs
+    nil
+    []
+    ["foo" "bar"]))

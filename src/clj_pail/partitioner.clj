@@ -37,3 +37,16 @@
   ; It would be nice to check some properties of `dirs`, but Pail sometimes appends extra diretories
   ; to the partitions, which means that `dirs` won't necessarily be empty.
   (first (validate partitioner dirs)))
+
+
+(defrecord ^{:doc "A vertical partitioner that places all objects in the root directory. In other
+                  words, it does not vertically partition the data."}
+  NullPartitioner []
+  VerticalPartitioner
+  (make-partition [_ _] [])
+  (validate [_ dirs] [true dirs]))
+
+(defn null-partitioner
+  "Returns a NullPartitioner."
+  []
+  (NullPartitioner.))

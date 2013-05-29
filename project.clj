@@ -6,7 +6,8 @@
 
   :min-lein-version "2.0"
 
-  :dependencies [[org.clojure/clojure "1.5.1"]]
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [com.backtype/dfs-datastores "1.3.4"]]
 
   :deploy-repositories [["releases" {:url "https://clojars.org/repo" :username :gpg :password :gpg}]
                         ["snapshots" {:url "https://clojars.org/repo" :username :gpg :password :gpg}]]

@@ -15,4 +15,6 @@
                         ["snapshots" {:url "https://clojars.org/repo" :username :gpg :password :gpg}]]
 
   :profiles {:dev {:dependencies [[midje "1.5.1"]]
-                   :plugins [[lein-midje "3.0.1"]]}})
+                   :plugins [[lein-midje "3.0.1"]]
+                   :source-paths ["src/test"]
+                   :aot [clj-pail.fakes.structure]}})

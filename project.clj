@@ -9,6 +9,8 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [com.backtype/dfs-datastores "1.3.4"]]
 
+  :source-paths ["src/main"]
+
   :deploy-repositories [["releases" {:url "https://clojars.org/repo" :username :gpg :password :gpg}]
                         ["snapshots" {:url "https://clojars.org/repo" :username :gpg :password :gpg}]]
 

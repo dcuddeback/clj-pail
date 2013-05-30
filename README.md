@@ -17,7 +17,7 @@ Add `clj-pail` to your project's dependencies. If you're using Leiningen, your `
 
 ### Defining a `PailStructure`
 
-You can generate classes that implement the `PailStructure` interface with the [`gen-structure` macro](https://github.com/dcuddeback/clj-pail/blob/master/src/main/clj_pail/structure.clj) from the `clj-pail.structure` namespace. The `PailStructure` interface is used by Pail to serialize, deserialize, and keep organized your data.
+You can generate classes that implement the `PailStructure` interface with the [`gen-structure` macro](src/main/clj_pail/structure.clj) from the `clj-pail.structure` namespace. The `PailStructure` interface is used by Pail to serialize, deserialize, and keep organized your data.
 
 ~~~clojure
 (ns ...
@@ -52,7 +52,7 @@ This example defines a `PailStructure` which serializes `Date` objects with a cu
 
 ### Serialization
 
-Serialization is defined by extending the [`clj-pail.serializer.Serializer`](https://github.com/dcuddeback/clj-pail/blob/master/src/main/clj_pail/serializer.clj) protocol.
+Serialization is defined by extending the [`clj-pail.serializer.Serializer`](src/main/clj_pail/serializer.clj) protocol.
 
 ~~~clojure
 (ns ...
@@ -73,7 +73,7 @@ Serialization is defined by extending the [`clj-pail.serializer.Serializer`](htt
 
 ### Vertical Partitioning
 
-Vertical partitioning is defined by extending the [`clj-pail.partitioner.VerticalPartitioner`](https://github.com/dcuddeback/clj-pail/blob/master/src/main/clj_pail/partitioner.clj).
+Vertical partitioning is defined by extending the [`clj-pail.partitioner.VerticalPartitioner`](src/main/clj_pail/partitioner.clj).
 protocol.
 
 ~~~clojure

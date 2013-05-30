@@ -1,6 +1,6 @@
 language: clojure
 lein:     lein2
-script:   lein2 midje
+script:   "lein2 with-profile +$CLOJURE_VERSION midje"
 branches:
   only:
     - master
@@ -8,3 +8,11 @@ jdk:
   - openjdk6
   - openjdk7
   - oraclejdk7
+env:
+  - CLOJURE_VERSION=1.3
+  - CLOJURE_VERSION=1.4
+  - CLOJURE_VERSION=1.5
+  - CLOJURE_VERSION=1.6
+matrix:
+  allow_failures:
+    - env: CLOJURE_VERSION=1.6

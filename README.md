@@ -1,5 +1,7 @@
 # clj-pail
 
+[![Build Status](https://travis-ci.org/dcuddeback/clj-pail.png?branch=master)](https://travis-ci.org/dcuddeback/clj-pail)
+
 A Clojure interface for [Pail](https://github.com/nathanmarz/dfs-datastores) that allows for separate definitions of serialization, vertical partitioning, and `PailStructure`.
 
 It breaks up the [`PailStructure` interface](https://github.com/nathanmarz/dfs-datastores/blob/develop/dfs-datastores/src/main/java/com/backtype/hadoop/pail/PailStructure.java) into two separate Clojure protocols (`Serializer` and `VerticalPartitioner`) so that serialization and partitioning can be defined separately. Then it defines a macro (`gen-structure`) to generate a class that implements `PailStructure` by composing the two protocols.

@@ -17,6 +17,17 @@
   (p/validate [this dirs] :fake))
 
 
+(defrecord UnserializableSerializer [object]
+  s/Serializer
+  (s/serialize [this object] (byte-array 0))
+  (s/deserialize [this buffer] nil))
+
+(defrecord UnserializablePartitioner [object]
+  p/VerticalPartitioner
+  (p/make-partition [this object] [])
+  (p/validate [this dirs] true))
+
+
 (structure/gen-structure clj_pail.fakes.structure.DefaultPailStructure)
 
 
@@ -25,3 +36,11 @@
                          :prefix "fake-"
                          :serializer (FakeSerializer.)
                          :partitioner (FakePartitioner.))
+
+
+; simulate a PailStructure that refers to unserializable implementations of Serializer and VerticalParitioner
+(structure/gen-structure clj_pail.fakes.structure.UnserializableStateStructure
+                         :type Object
+                         :prefix "unserializable-"
+                         :serializer (UnserializableSerializer. *in*)
+                         :partitioner (UnserializablePartitioner. *in*))

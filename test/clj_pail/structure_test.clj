@@ -4,7 +4,8 @@
             [clj-pail.partitioner :as partitioner])
   (:import [com.backtype.hadoop.pail PailStructure]
            [clj_pail.partitioner NullPartitioner]
-           [clj_pail.fakes.structure DefaultPailStructure FakePailStructure FakeSerializer FakePartitioner])
+           [clj_pail.fakes.structure DefaultPailStructure FakePailStructure FakeSerializer FakePartitioner UnserializableStateStructure]
+           [java.io ByteArrayOutputStream ByteArrayInputStream ObjectOutputStream ObjectInputStream NotSerializableException])
   (:use midje.sweet))
 
 
@@ -110,4 +111,19 @@
 
         ?dirs         ?result
         []            false
-        ["foo" "42"]  true))))
+        ["foo" "42"]  true)))
+
+
+  (facts "with unserializable state"
+    (let [fake-structure (UnserializableStateStructure.)
+          bytes-out (ByteArrayOutputStream.)
+          object-out (ObjectOutputStream. bytes-out)]
+
+      (fact "should be serializable"
+        ; NOTE: These checks depend on being run in this order
+        (.writeObject object-out fake-structure) =not=> (throws NotSerializableException)
+        (-> bytes-out
+          (.toByteArray)
+          (ByteArrayInputStream.)
+          (ObjectInputStream.)
+          (.readObject)) => (instance-of UnserializableStateStructure)))))

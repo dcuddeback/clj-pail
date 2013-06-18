@@ -73,8 +73,7 @@ Serialization is defined by extending the [`clj-pail.serializer.Serializer`](src
 
 ### Vertical Partitioning
 
-Vertical partitioning is defined by extending the [`clj-pail.partitioner.VerticalPartitioner`](src/main/clj_pail/partitioner.clj).
-protocol.
+Vertical partitioning is defined by extending the [`clj-pail.partitioner.VerticalPartitioner`](src/main/clj_pail/partitioner.clj) protocol.
 
 ~~~clojure
 (ns ...

@@ -122,8 +122,23 @@
       (fact "should be serializable"
         ; NOTE: These checks depend on being run in this order
         (.writeObject object-out fake-structure) =not=> (throws NotSerializableException)
+
         (-> bytes-out
           (.toByteArray)
           (ByteArrayInputStream.)
           (ObjectInputStream.)
-          (.readObject)) => (instance-of UnserializableStateStructure)))))
+          (.readObject)) => (instance-of UnserializableStateStructure)
+
+        (-> bytes-out
+          (.toByteArray)
+          (ByteArrayInputStream.)
+          (ObjectInputStream.)
+          (.readObject)
+          (.getSerializer)) =not=> nil?
+
+        (-> bytes-out
+          (.toByteArray)
+          (ByteArrayInputStream.)
+          (ObjectInputStream.)
+          (.readObject)
+          (.getPartitioner)) =not=> nil?))))

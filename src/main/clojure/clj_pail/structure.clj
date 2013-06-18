@@ -36,26 +36,27 @@ Any namespace that uses `gen-structure` should be configured to be AOT-compiled.
   `(do
      (gen-class
        :name ~the-name
-       :implements [com.backtype.hadoop.pail.PailStructure java.io.Serializable]
-       :state "state"
-       :init "init"
+       :extends clj_pail.structure.AbstractPailStructure
        :prefix ~prefix
        :main false)
 
-     (defn ~(symbol (str prefix "init")) []
-       [[] nil])
+     (defn ~(symbol (str prefix "createSerializer")) [this#]
+       ~serializer)
+
+     (defn ~(symbol (str prefix "createPartitioner")) [this#]
+       ~partitioner)
 
      (defn ~(symbol (str prefix "getType")) [this#]
        ~type)
 
      (defn ~(symbol (str prefix "serialize")) [this# object#]
-       (serializer/serialize ~serializer object#))
+       (serializer/serialize (.getSerializer this#) object#))
 
      (defn ~(symbol (str prefix "deserialize")) [this# buffer#]
-       (serializer/deserialize ~serializer buffer#))
+       (serializer/deserialize (.getSerializer this#) buffer#))
 
      (defn ~(symbol (str prefix "getTarget")) [this# object#]
-       (partitioner/vertical-partition ~partitioner object#))
+       (partitioner/vertical-partition (.getPartitioner this#) object#))
 
      (defn ~(symbol (str prefix "isValidTarget")) [this# dirs#]
-       (partitioner/valid-partition? ~partitioner dirs#))))
+       (partitioner/valid-partition? (.getPartitioner this#) dirs#))))

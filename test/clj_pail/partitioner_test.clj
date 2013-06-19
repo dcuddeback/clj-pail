@@ -41,27 +41,16 @@
       (partitioner/make-partition ..partitioner.. ..object..) => nil)))
 
 
-(facts "valid-partition?"
-  (fact "returns true if the partition is valid"
-    (partitioner/valid-partition? ..partitioner.. ..dirs..) => true
+(tabular "valid-partition?"
+  (fact "converts arrays to Clojure seqs"
+    (partitioner/valid-partition? ..partitioner.. (into-array String ?dirs)) => ..result..
     (provided
-      (partitioner/validate ..partitioner.. ..dirs..) => [true irrelevant]))
+      (partitioner/validate ..partitioner.. ?seq) => [..result.. irrelevant]))
 
-  (fact "returns false if the partition is invalid"
-    (partitioner/valid-partition? ..partitioner.. ..dirs..) => false
-    (provided
-      (partitioner/validate ..partitioner.. ..dirs..) => [false irrelevant]))
-
-  (tabular
-    (fact "ignores the remaining directories"
-      (partitioner/valid-partition? ..partitioner.. ..dirs..) => ..result..
-      (provided
-        (partitioner/validate ..partitioner.. ..dirs..) => [..result.. ?dirs]))
-
-    ?dirs
-    nil
-    []
-    ["foo" "bar"]))
+  ?dirs         ?seq
+  []            (as-checker empty?)
+  ["foo"]       (just ["foo"])
+  ["bar" "42"]  (just ["bar" "42"]))
 
 
 (facts "NullPartitioner"

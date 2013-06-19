@@ -49,7 +49,7 @@
   [partitioner dirs]
   ; It would be nice to check some properties of `dirs`, but Pail sometimes appends extra diretories
   ; to the partitions, which means that `dirs` won't necessarily be empty.
-  (first (validate* partitioner dirs)))
+  (first (validate* partitioner (seq dirs))))
 
 
 (defrecord ^{:doc "A vertical partitioner that places all objects in the root directory. In other

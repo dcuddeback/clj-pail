@@ -3,6 +3,20 @@
   (:use midje.sweet))
 
 
+(facts "make-partition*"
+  (fact "passes through to protocol implementation"
+    (partitioner/make-partition* ..partitioner.. ..object..) => ..result..
+    (provided
+      (partitioner/make-partition ..partitioner.. ..object..) => ..result..)))
+
+
+(facts "validate*"
+  (fact "passes through to protocol implementation"
+    (partitioner/validate* ..partitioner.. ..dirs..) => ..result..
+    (provided
+      (partitioner/validate ..partitioner.. ..dirs..) => ..result..)))
+
+
 (facts "vertical-partition"
   (fact "returns a list of partitions"
     (partitioner/vertical-partition ..partitioner.. ..object..) => (just "foo" "bar")

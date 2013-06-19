@@ -24,11 +24,24 @@
            (rest dirs)])                      ; return remaining directories"))
 
 
+(defn make-partition*
+  "Calls the underlying protocol implementation. This can be used as a mocking point to unit test
+  implementations of `make-partition` that compose other partitioners."
+  [partitioner object]
+  (make-partition partitioner object))
+
+(defn validate*
+  "Calls the underlying protocol implementation. This can be used as a mocking point to unit test
+  implementations of `validate` that compose other partitioners."
+  [partitioner dirs]
+  (validate partitioner dirs))
+
+
 (defn vertical-partition
   "Returns the vertical partitions for an object as a list of strings."
   [partitioner object]
-  (->> (make-partition partitioner object)
-    (filter identity)
+  (->> (make-partition* partitioner object)
+    (remove nil?)
     (map str)))
 
 (defn valid-partition?
@@ -36,7 +49,7 @@
   [partitioner dirs]
   ; It would be nice to check some properties of `dirs`, but Pail sometimes appends extra diretories
   ; to the partitions, which means that `dirs` won't necessarily be empty.
-  (first (validate partitioner dirs)))
+  (first (validate* partitioner dirs)))
 
 
 (defrecord ^{:doc "A vertical partitioner that places all objects in the root directory. In other

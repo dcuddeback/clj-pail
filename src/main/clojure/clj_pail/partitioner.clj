@@ -1,4 +1,7 @@
-(ns clj-pail.partitioner)
+(ns clj-pail.partitioner
+  "Utilties for defining vertically partitioned Pail structures.")
+
+;; ## Protocol
 
 (defprotocol VerticalPartitioner
   "A protocol for vertically partitioning a PailStructure. Partitioners can be composed to build
@@ -24,6 +27,8 @@
            (rest dirs)])                      ; return remaining directories"))
 
 
+;; ## Testing Hooks
+
 (defn make-partition*
   "Calls the underlying protocol implementation. This can be used as a mocking point to unit test
   implementations of `make-partition` that compose other partitioners."
@@ -36,6 +41,12 @@
   [partitioner dirs]
   (validate partitioner dirs))
 
+
+;; ## Facade Interface
+;;
+;; The facade interface should be used when consuming a `VerticalPartitioner`. It handles the
+;; necessary data conversions between the protocol functions and what is needed for public
+;; consumption.
 
 (defn vertical-partition
   "Returns the vertical partitions for an object as a list of strings."
@@ -51,6 +62,8 @@
   ; to the partitions, which means that `dirs` won't necessarily be empty.
   (first (validate* partitioner (seq dirs))))
 
+
+;; ## Concrete Partitioners
 
 (defrecord ^{:doc "A vertical partitioner that places all objects in the root directory. In other
                   words, it does not vertically partition the data."}

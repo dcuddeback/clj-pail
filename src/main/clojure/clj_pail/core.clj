@@ -25,6 +25,12 @@
     (Pail/create path spec fail-on-exists)))
 
 
+(defn object-seq
+  "Returns a sequence of objects read from the Pail."
+  [^Pail pail]
+  (iterator-seq (.iterator pail)))
+
+
 (defmacro with-snapshot
   "Automatically deletes Pail snapshots after successfuly executing a block of code. The snapshots
   should be created with `Pail.snapshot()` and will only be deleted if the body finishes

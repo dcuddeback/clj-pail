@@ -51,8 +51,8 @@
                                      (doto writer
                                        (.writeObject during-1)
                                        (.writeObject during-2)))
-                                   (iterator-seq (.iterator snapshot)))
-                pail-objects (iterator-seq (.iterator pail))]
+                                   (pail/object-seq snapshot))
+                pail-objects (pail/object-seq pail)]
 
             (fact "snapshot sees data written before snapshot"
               snapshot-objects => (contains (array-eq before-1))

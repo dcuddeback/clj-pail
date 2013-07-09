@@ -12,8 +12,10 @@ Add `clj-pail` to your project's dependencies. If you're using Leiningen, your `
 
 ~~~clojure
 (defproject ...
-  :dependencies [[clj-pail "0.1.1"]])
+  :dependencies [[clj-pail VERSION]])
 ~~~
+
+Where `VERSION` is the latest version on [Clojars](https://clojars.org/clj-pail).
 
 ### Defining a `PailStructure`
 

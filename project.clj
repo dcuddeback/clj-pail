@@ -1,4 +1,4 @@
-(defproject clj-pail "0.1.3"
+(defproject clj-pail "0.1.4-SNAPSHOT"
   :description "A Clojure abstraction for Pail"
   :url "https://github.com/dcuddeback/clj-pail"
   :license {:name "MIT License"

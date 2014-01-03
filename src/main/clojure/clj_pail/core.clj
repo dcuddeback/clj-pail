@@ -17,13 +17,28 @@
 
 
 (defn ^Pail create
-  "Creates a Pail from a PailSpec at `path`."
-  [^PailSpec spec path & {:keys [filesystem fail-on-exists]
-                          :or {fail-on-exists true}}]
-  (if filesystem
-    (Pail/create filesystem path spec fail-on-exists)
-    (Pail/create path spec fail-on-exists)))
+   "Creates a Pail from a PailSpec at `path`."
+   [spec-or-structure path & {:keys [filesystem fail-on-exists]
+                              :or {fail-on-exists true}
+                              :as opts}]
+   (if (instance? PailStructure spec-or-structure)
+     (apply create (spec spec-or-structure) path (mapcat identity opts))
+     (if filesystem
+       (Pail/create filesystem path spec-or-structure fail-on-exists)
+       (Pail/create path spec-or-structure fail-on-exists))))
 
+(defn find-or-create [pstruct path & {:as create-key-args}]
+  "Get a pail from a path, or create one if not found"
+  (try (pail path)
+       (catch Exception e
+          (apply create pstruct path (mapcat identity create-key-args)))))
+
+(defn write-objects
+  "Writes a list of objects to a Pail."
+  [pail objects]
+  (with-open [writer (.openWrite pail)]
+    (doseq [o objects]
+      (.writeObject writer o))))
 
 (defn object-seq
   "Returns a sequence of objects read from the Pail."

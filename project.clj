@@ -24,6 +24,8 @@
                    :source-paths ["src/test"]
                    :aot [clj-pail.fakes.structure]}}
 
+  :global-vars {*warn-on-reflection* true}
+
   :aliases {"all" ["with-profile" "+1.3:+1.4:+1.5:+1.6"]}
 
   :repositories {"sonatype" {:url "http://oss.sonatype.org/content/repositories/releases"

@@ -1,12 +1,13 @@
 (ns clj-pail.structure
   "Utilities for defining Pail structures."
   (:require [clj-pail.serializer :as serializer]
-            [clj-pail.partitioner :as partitioner]))
+            [clj-pail.partitioner :as partitioner])
+  (:import clj_pail.structure.AbstractPailStructure))
 
 ;; ## Generating Pail Structures
 
 (defmacro gen-structure
-"Generates a class that implements `PailStructure`. The `PailStructure`'s behavior can be
+  "Generates a class that implements `PailStructure`. The `PailStructure`'s behavior can be
 customized by providing a `Serializer` or `VerticalPartitioner`. The class will be named whatever
 is provided for the `name` parameter. (It should be specified just as it would be `gen-class`.
 
@@ -35,10 +36,10 @@ Any namespace that uses `gen-structure` should be configured to be AOT-compiled.
                     prefix "-"}}]
   `(do
      (gen-class
-       :name ~the-name
-       :extends clj_pail.structure.AbstractPailStructure
-       :prefix ~prefix
-       :main false)
+      :name ~the-name
+      :extends clj_pail.structure.AbstractPailStructure
+      :prefix ~prefix
+      :main false)
 
      (defn ~(symbol (str prefix "createSerializer")) [this#]
        ~serializer)
@@ -50,13 +51,13 @@ Any namespace that uses `gen-structure` should be configured to be AOT-compiled.
        ~type)
 
      (defn ~(symbol (str prefix "serialize")) [this# object#]
-       (serializer/serialize (.getSerializer this#) object#))
+       (serializer/serialize (.getSerializer ^AbstractPailStructure this#) object#))
 
      (defn ~(symbol (str prefix "deserialize")) [this# buffer#]
-       (serializer/deserialize (.getSerializer this#) buffer#))
+       (serializer/deserialize (.getSerializer ^AbstractPailStructure this#) buffer#))
 
      (defn ~(symbol (str prefix "getTarget")) [this# object#]
-       (partitioner/vertical-partition (.getPartitioner this#) object#))
+       (partitioner/vertical-partition (.getPartitioner ^AbstractPailStructure this#) object#))
 
      (defn ~(symbol (str prefix "isValidTarget")) [this# dirs#]
-       (partitioner/valid-partition? (.getPartitioner this#) dirs#))))
+       (partitioner/valid-partition? (.getPartitioner ^AbstractPailStructure this#) dirs#))))

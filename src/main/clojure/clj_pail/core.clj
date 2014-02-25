@@ -11,31 +11,31 @@
 (defn ^Pail pail
   "Opens an existing Pail."
   ([path]
-   (Pail. path))
+     (Pail. path))
   ([fs path]
-   (Pail. fs path)))
+     (Pail. fs path)))
 
 
 (defn ^Pail create
-   "Creates a Pail from a PailSpec at `path`."
-   [spec-or-structure path & {:keys [filesystem fail-on-exists]
-                              :or {fail-on-exists true}
-                              :as opts}]
-   (if (instance? PailStructure spec-or-structure)
-     (apply create (spec spec-or-structure) path (mapcat identity opts))
-     (if filesystem
-       (Pail/create filesystem path spec-or-structure fail-on-exists)
-       (Pail/create path spec-or-structure fail-on-exists))))
+  "Creates a Pail from a PailSpec at `path`."
+  [spec-or-structure path & {:keys [filesystem fail-on-exists]
+                             :or {fail-on-exists true}
+                             :as opts}]
+  (if (instance? PailStructure spec-or-structure)
+    (apply create (spec spec-or-structure) path (mapcat identity opts))
+    (if filesystem
+      (Pail/create filesystem path spec-or-structure fail-on-exists)
+      (Pail/create path spec-or-structure fail-on-exists))))
 
 (defn find-or-create [pstruct path & {:as create-key-args}]
   "Get a pail from a path, or create one if not found"
   (try (pail path)
        (catch Exception e
-          (apply create pstruct path (mapcat identity create-key-args)))))
+         (apply create pstruct path (mapcat identity create-key-args)))))
 
 (defn write-objects
   "Writes a list of objects to a Pail."
-  [pail objects]
+  [^Pail pail objects]
   (with-open [writer (.openWrite pail)]
     (doseq [o objects]
       (.writeObject writer o))))
@@ -66,16 +66,16 @@
       ...)"
   [pail bindings & body]
   (cond
-    (empty? bindings)
-    `(do ~@body)
+   (empty? bindings)
+   `(do ~@body)
 
-    (symbol? (first bindings))
-    (let [[this-binding rest-bindings] (split-at 2 bindings)
-          snapshot (first this-binding)]
-      `(let ~(vec this-binding)
-         (let [result# (with-snapshot ~pail ~rest-bindings ~@body)]
-           (.deleteSnapshot ~pail ~snapshot)
-           result#)))
+   (symbol? (first bindings))
+   (let [[this-binding rest-bindings] (split-at 2 bindings)
+         snapshot (first this-binding)]
+     `(let ~(vec this-binding)
+        (let [result# (with-snapshot ~pail ~rest-bindings ~@body)]
+          (.deleteSnapshot ~pail ~snapshot)
+          result#)))
 
-    :else
-    (throw (IllegalArgumentException. "with-snapshot only allows symbols in bindings"))))
+   :else
+   (throw (IllegalArgumentException. "with-snapshot only allows symbols in bindings"))))

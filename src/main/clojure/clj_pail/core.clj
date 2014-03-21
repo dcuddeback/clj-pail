@@ -1,5 +1,5 @@
 (ns clj-pail.core
-  (:import (com.backtype.hadoop.pail Pail PailSpec PailStructure)))
+  (:import (com.backtype.hadoop.pail Pail PailSpec PailStructure PailFormatFactory)))
 
 
 (defn ^PailSpec spec
@@ -7,7 +7,7 @@
   ([^PailStructure structure]
      (PailSpec. structure))
   ([^PailStructure structure opts]
-     (PailSpec. nil opts structure)))
+     (PailSpec. PailFormatFactory/SEQUENCE_FILE opts structure)))
 
 
 (defn ^Pail pail

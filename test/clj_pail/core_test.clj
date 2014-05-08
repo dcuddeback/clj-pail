@@ -2,7 +2,7 @@
   (:require [clj-pail.core :as pail]
             [clojure.java.shell :as shell])
   (:use midje.sweet)
-  (:import (com.backtype.hadoop.pail PailSpec PailStructure DefaultPailStructure SequenceFileFormat)
+  (:import (com.backtype.hadoop.pail PailSpec PailStructure DefaultPailStructure SequenceFileFormat PailFormatFactory)
            (org.apache.hadoop.fs FileSystem Path)
            (org.apache.hadoop.conf Configuration)))
 
@@ -28,8 +28,8 @@
     (fact "create a PailSpec from a PailStructure and options"
       (let [opts {SequenceFileFormat/CODEC_ARG
                   SequenceFileFormat/CODEC_ARG_GZIP}]
-        (pail/spec structure opts) => (instance-of PailSpec)
-        (.getArgs (pail/spec structure opts)) => opts))))
+        (pail/spec PailFormatFactory/SEQUENCE_FILE structure opts) => (instance-of PailSpec)
+        (.getArgs (pail/spec PailFormatFactory/SEQUENCE_FILE structure opts)) => opts))))
 
 
 (let [tmp-path "tmp/test"]

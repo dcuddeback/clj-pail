@@ -4,8 +4,10 @@
 
 (defn ^PailSpec spec
   "Builds a PailSpec from a PailStructure."
-  [^PailStructure structure]
-  (PailSpec. structure))
+  ([^PailStructure structure]
+     (PailSpec. structure))
+  ([^PailStructure format structure opts]
+     (PailSpec. format opts structure)))
 
 
 (defn ^Pail pail

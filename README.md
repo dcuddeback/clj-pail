@@ -64,12 +64,12 @@ Serialization is defined by extending the [`clj-pail.serializer.Serializer`](src
 (defrecord CustomDateSerializer [#^java.text.DateFormat format]
   s/Serializer
   (serialize [this date]
-    (.. (:format this)
+    (.. (get this :format)
       (format date)
       (getBytes)))
 
   (deserialize [this buffer]
-    (.parse (:format this)
+    (.parse (get this :format)
             (String. buffer))))
 ~~~
 
